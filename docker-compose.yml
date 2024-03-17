@@ -1,0 +1,57 @@
+version: "3"
+services:
+  web:
+    container_name: test_web
+    build:
+      context: ./images/web/
+      dockerfile: ./web.dockerfile
+    volumes:
+      - ./:/var/www
+    ports:
+      - "8083:80"
+    links:
+      - app
+  app:
+    container_name: test_app
+    build:
+      context: ./images/app/
+      dockerfile: ./app.dockerfile
+      args:
+        - USER=${USER}
+        - UID=${UID}
+    volumes:
+      - ./:/var/www
+      - ./custom.d:/usr/local/etc/php/custom.d
+    environment:
+      - "PHP_INI_SCAN_DIR=/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+    links:
+      - database
+    depends_on:
+      - database
+  nodejs:
+    build:
+      context: images/node
+      args:
+        - USER=${USER}
+    container_name: test_nodejs
+    volumes:
+      - ./:/var/www/
+  database:
+    image: mysql:5.7
+    container_name: test_db
+    environment:
+      - "MYSQL_ROOT_PASSWORD=${DB_PASSWORD}"
+      - "MYSQL_DATABASE=${DB_DATABASE}"
+    ports:
+      - "33064:3306"
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin"
+    container_name: test_phpmyadmin
+    links:
+      - database
+    ports:
+      - "8084:80"
+    environment:
+      - "PMA_HOST=${DB_HOST}"
+      - "PMA_USER=${DB_USERNAME}"
+      - "PMA_PASSWORD=${DB_PASSWORD}"
