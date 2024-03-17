@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Person;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        Person::factory(20)->create();
     }
 }
