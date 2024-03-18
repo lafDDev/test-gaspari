@@ -21,7 +21,4 @@ class Person extends Model
         'email'
     ];
 
-    protected $hidden = [
-        'id'
-    ];
 }

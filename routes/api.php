@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\PersonController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/people', [PersonController::class, 'index']);
+Route::get('/people/{id}', [PersonController::class, 'find'])->where('id', '[0-9]+');
+Route::post('/people', [PersonController::class, 'create']);
+Route::put('/people/{id}', [PersonController::class, 'update'])->where('id', '[0-9]+');
+Route::delete('/people/{id}', [PersonController::class, 'delete'])->where('id', '[0-9]+');
