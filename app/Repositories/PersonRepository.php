@@ -9,7 +9,7 @@ class PersonRepository implements PersonRepositoryInterface
 {
    
     public function getList() {
-        return Person::all();
+        return Person::paginate(8);
     }
 
    
