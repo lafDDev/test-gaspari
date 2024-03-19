@@ -14,5 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('person-list');
+})->name('person-list');
+
+Route::get('/people/edit/{id}', function ($id) {
+    return view('person-edit')->with('id', $id);
+})->where('id', '[0-9]+')->name('person-edit');
+
+
+Route::get('/people/create', function () {
+    return view('person-create');
+})->name('person-create');
