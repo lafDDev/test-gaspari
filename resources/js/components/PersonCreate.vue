@@ -138,7 +138,11 @@ export default {
         })
         .catch(error => {
           this.isSaving = false
-          this.validationErrors.response = error.response.data.errors
+          if (error.response.data.errors.email[0] == "The email has already been taken.") {
+            this.validationErrors.email = 'Questa mail è già stata utilizzata'
+          } else {
+            this.validationErrors.response = error.response.data.errors
+          }
 
           return error
         });

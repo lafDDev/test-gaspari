@@ -62,7 +62,7 @@
 
       </div>
     </div>
-    <b-alert :show="validationErrors.response != null" dismissible fade variant="danger">{{
+    <b-alert :show="validationErrors.response != null" dismissible fade variant="danger" class="fixed-top">{{
               this.validationErrors.response }}</b-alert>
   </layout-div>
 </template>
@@ -157,8 +157,13 @@ export default {
         })
         .catch(error => {
           this.isSaving = false
-          this.validationErrors.response = error.response.data.errors
 
+          if (error.response.data.errors.email[0] == "The email has already been taken."){
+            this.validationErrors.email = 'Questa mail è già stata utilizzata'
+          } else {
+            this.validationErrors.response = error.response.data.errors
+          }
+          
           return error
         });
     },
@@ -195,8 +200,6 @@ export default {
       }
 
       return !foundError
-
-
     }
   },
 

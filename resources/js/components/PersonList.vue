@@ -74,14 +74,10 @@ export default {
     fetchPersonList(page) {
       axios.get(`/api/people?page=${page}`)
         .then(response => {
-          console.log("myData", response.data)
           this.people = response.data.people.data;
-
-          console.log("people", response.data.people.data)
           this.pagination.currentPage = response.data.people.current_page
           this.pagination.rows = response.data.people.total
           this.pagination.perPage = response.data.people.per_page
-          console.log("pagination", this.pagination)
           return response
         })
         .catch(error => {
